@@ -19,6 +19,7 @@ export interface Product {
   createdAt: string;
   sellerName: string;
   isVerified?: boolean;
+  sold?: boolean;
 }
 
 interface ProductCardProps {
@@ -91,6 +92,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="absolute top-3 right-3 z-10">
           <Badge className="bg-marketplace-green text-white px-2 py-1">
             FREE
+          </Badge>
+        </div>
+      )}
+
+      {/* Sold Badge */}
+      {product.sold && (
+        <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/30">
+          <Badge className="bg-[#ea384c] text-white px-4 py-2 text-lg transform rotate-[-15deg]">
+            SOLD
           </Badge>
         </div>
       )}
