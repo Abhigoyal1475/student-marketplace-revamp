@@ -25,12 +25,14 @@ interface ProductCardProps {
   product: Product;
   className?: string;
   featured?: boolean;
+  style?: React.CSSProperties;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   className,
   featured = false,
+  style,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -70,6 +72,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         featured && "border-2 border-marketplace-blue ring-2 ring-blue-100",
         className
       )}
+      style={style}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
