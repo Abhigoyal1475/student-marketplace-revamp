@@ -13,4 +13,5 @@ export interface Product {
   sellerName: string;
   isVerified?: boolean;
   sold?: boolean;
+  society?: string;
 }

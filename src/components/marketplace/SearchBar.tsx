@@ -42,6 +42,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      if (onSearch) {
+        onSearch(searchQuery.trim());
+      }
+    }
+  };
+
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
     setFilteredSuggestions([]);
@@ -57,6 +65,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           type="text"
           value={searchQuery}
           onChange={handleChange}
+          onKeyPress={handleKeyPress}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
           placeholder={placeholder}

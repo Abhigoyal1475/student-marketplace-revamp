@@ -18,8 +18,8 @@ const FeaturedListings: React.FC<FeaturedListingsProps> = ({
   title = "Featured Listings",
   showViewMore = true,
 }) => {
-  // Take only first 3 products for featured
-  const featuredProducts = products.slice(0, 3);
+  // Take first 6 products for featured
+  const featuredProducts = products.slice(0, 6);
 
   return (
     <div className={cn("w-full", className)}>
@@ -40,7 +40,7 @@ const FeaturedListings: React.FC<FeaturedListingsProps> = ({
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {featuredProducts.map((product, index) => (
           <ProductCard
             key={product.id}

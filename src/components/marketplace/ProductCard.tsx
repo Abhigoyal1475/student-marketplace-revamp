@@ -1,12 +1,12 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { FeaturedBadge, FreeBadge, SoldBadge } from "./product-card/ProductBadges";
 import ProductImage from "./product-card/ProductImage";
 import ProductInfo from "./product-card/ProductInfo";
 import ProductCardHover from "./product-card/ProductCardHover";
 import type { Product } from "@/types/product";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   product: Product;
@@ -24,8 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Link
-      to={`/products/${product.id}`}
+    <div
       className={cn(
         "group rounded-xl overflow-hidden bg-white card-shadow flex flex-col h-full",
         "transition-all duration-300 relative",
@@ -52,8 +51,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <ProductInfo product={product} />
 
       {/* Hover overlay with action button */}
-      <ProductCardHover isHovered={isHovered} />
-    </Link>
+      <ProductCardHover isHovered={isHovered} product={product} />
+    </div>
   );
 };
 

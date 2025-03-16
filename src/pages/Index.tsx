@@ -8,9 +8,22 @@ import SearchBar from "@/components/marketplace/SearchBar";
 import Filters, { CategoryOption, SortOption } from "@/components/marketplace/Filters";
 import ProductGrid from "@/components/marketplace/ProductGrid";
 import FeaturedListings from "@/components/marketplace/FeaturedListings";
-import { Product } from "@/components/marketplace/ProductCard";
+import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { ChevronUp } from "lucide-react";
+
+// List of housing societies
+export const HOUSING_SOCIETIES = [
+  "All Societies",
+  "Stratford",
+  "Scotland",
+  "Holly Hall",
+  "Windsor Hill",
+  "Cambridge Commons",
+  "College Suites",
+  "University Village",
+  "Campus Edge"
+];
 
 // Mock data for demo
 const MOCK_PRODUCTS: Product[] = [
@@ -26,6 +39,7 @@ const MOCK_PRODUCTS: Product[] = [
     createdAt: "2023-08-15T12:00:00Z",
     sellerName: "Alex",
     isVerified: true,
+    society: "Stratford"
   },
   {
     id: "2",
@@ -35,9 +49,10 @@ const MOCK_PRODUCTS: Product[] = [
     thumbnail: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
     description: "Calculus textbook in good condition, with minor highlighting. All pages intact.",
     condition: "Used",
-    category: "Books & Study Materials",
+    category: "Electronics & Gadgets",
     createdAt: "2023-08-14T10:30:00Z",
     sellerName: "Maria",
+    society: "Scotland"
   },
   {
     id: "3",
@@ -51,6 +66,7 @@ const MOCK_PRODUCTS: Product[] = [
     createdAt: "2023-08-13T15:45:00Z",
     sellerName: "John",
     isVerified: true,
+    society: "Holly Hall"
   },
   {
     id: "4",
@@ -64,6 +80,7 @@ const MOCK_PRODUCTS: Product[] = [
     createdAt: "2023-08-12T09:20:00Z",
     sellerName: "Emma",
     isVerified: true,
+    society: "Windsor Hill"
   },
   {
     id: "5",
@@ -76,21 +93,10 @@ const MOCK_PRODUCTS: Product[] = [
     category: "Home Essentials",
     createdAt: "2023-08-11T14:15:00Z",
     sellerName: "David",
+    society: "Cambridge Commons"
   },
   {
     id: "6",
-    title: "Psychology Textbook Bundle",
-    price: 45,
-    location: "East Campus",
-    thumbnail: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-    description: "Set of 3 psychology textbooks for introductory and advanced courses. Save money by buying the bundle!",
-    condition: "Used",
-    category: "Books & Study Materials",
-    createdAt: "2023-08-10T11:30:00Z",
-    sellerName: "Sophia",
-  },
-  {
-    id: "7",
     title: "Electric Scooter",
     price: 200,
     location: "Near Medical Center",
@@ -100,9 +106,10 @@ const MOCK_PRODUCTS: Product[] = [
     category: "Bicycles & Transport",
     createdAt: "2023-08-09T16:40:00Z",
     sellerName: "James",
+    society: "College Suites"
   },
   {
-    id: "8",
+    id: "7",
     title: "Desk Lamp with Wireless Charger",
     price: 30,
     location: "Student Housing",
@@ -112,9 +119,10 @@ const MOCK_PRODUCTS: Product[] = [
     category: "Home Essentials",
     createdAt: "2023-08-08T13:50:00Z",
     sellerName: "Olivia",
+    society: "University Village"
   },
   {
-    id: "9",
+    id: "8",
     title: "Ergonomic Office Chair",
     price: 85,
     location: "South Campus",
@@ -124,9 +132,10 @@ const MOCK_PRODUCTS: Product[] = [
     category: "Furniture",
     createdAt: "2023-08-07T10:15:00Z",
     sellerName: "Daniel",
+    society: "Campus Edge"
   },
   {
-    id: "10",
+    id: "9",
     title: "Scientific Calculator - TI-84",
     price: 40,
     location: "Math Department",
@@ -136,9 +145,10 @@ const MOCK_PRODUCTS: Product[] = [
     category: "Electronics & Gadgets",
     createdAt: "2023-08-06T09:10:00Z",
     sellerName: "Ava",
+    society: "Stratford"
   },
   {
-    id: "11",
+    id: "10",
     title: "Microwave - Compact Size",
     isFree: true,
     price: 0,
@@ -149,9 +159,10 @@ const MOCK_PRODUCTS: Product[] = [
     category: "Home Essentials",
     createdAt: "2023-08-05T14:30:00Z",
     sellerName: "Noah",
+    society: "Scotland"
   },
   {
-    id: "12",
+    id: "11",
     title: "Drawing Tablet - Wacom",
     price: 70,
     location: "Art Department",
@@ -162,12 +173,28 @@ const MOCK_PRODUCTS: Product[] = [
     createdAt: "2023-08-04T11:45:00Z",
     sellerName: "Isabella",
     isVerified: true,
+    society: "Holly Hall"
+  },
+  {
+    id: "12",
+    title: "Blue Mechanical Keyboard",
+    price: 45,
+    sold: true,
+    location: "Campus Center",
+    thumbnail: "https://images.unsplash.com/photo-1595044426096-d7e1c8d8efe3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    description: "Cherry MX Blue mechanical keyboard. Excellent for typing papers and light gaming.",
+    condition: "Used",
+    category: "Electronics & Gadgets",
+    createdAt: "2023-08-03T16:20:00Z",
+    sellerName: "Alex",
+    isVerified: true,
+    society: "Windsor Hill"
   },
 ];
 
 // Search suggestions
 const SEARCH_SUGGESTIONS = [
-  "Desk", "Chair", "Textbook", "Laptop", "Bicycle", 
+  "Desk", "Chair", "Bike", "Laptop", "Bicycle", 
   "Microwave", "Refrigerator", "Calculator", "Bookshelf",
   "Monitor", "Keyboard", "Bed Frame", "Mattress"
 ];
@@ -185,6 +212,7 @@ const Index = () => {
     sort: "newest" as SortOption,
     category: "all" as CategoryOption,
     priceRange: [0, 1000] as [number, number],
+    society: "All Societies"
   });
 
   // Simulate loading
@@ -240,6 +268,13 @@ const Index = () => {
       });
     }
     
+    // Apply society filter
+    if (activeFilters.society !== "All Societies") {
+      filtered = filtered.filter(
+        (product) => product.society === activeFilters.society
+      );
+    }
+    
     // Apply price range filter
     filtered = filtered.filter(
       (product) =>
@@ -278,8 +313,21 @@ const Index = () => {
     sort: SortOption;
     category: CategoryOption;
     priceRange: [number, number];
+    society?: string;
   }) => {
-    setActiveFilters(filters);
+    setActiveFilters({
+      ...activeFilters,
+      ...filters,
+      society: filters.society || activeFilters.society
+    });
+  };
+
+  // Handle society change
+  const handleSocietyChange = (society: string) => {
+    setActiveFilters({
+      ...activeFilters,
+      society
+    });
   };
 
   // Scroll to top function
@@ -307,6 +355,27 @@ const Index = () => {
             />
           </div>
           
+          {/* Society Filter */}
+          <div className="mb-8 overflow-x-auto scrollbar-hide">
+            <div className="flex space-x-2 pb-2">
+              {HOUSING_SOCIETIES.map((society) => (
+                <Button
+                  key={society}
+                  variant={society === activeFilters.society ? "default" : "outline"}
+                  className={cn(
+                    "whitespace-nowrap",
+                    society === activeFilters.society 
+                      ? "bg-marketplace-blue text-white" 
+                      : "text-marketplace-gray-700"
+                  )}
+                  onClick={() => handleSocietyChange(society)}
+                >
+                  {society}
+                </Button>
+              ))}
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
             {/* Filters - Desktop */}
             {!isMobile && (
@@ -324,14 +393,16 @@ const Index = () => {
                 />
               )}
               
-              {/* Featured Listings */}
-              <FeaturedListings products={MOCK_PRODUCTS.slice(0, 3)} />
+              {/* Featured Listings - now showing 6 */}
+              <FeaturedListings products={MOCK_PRODUCTS.slice(0, 6)} />
               
               {/* Product Grid */}
               <div>
                 <h2 className="text-xl font-semibold mb-6">
                   {searchQuery 
                     ? `Search Results for "${searchQuery}"`
+                    : activeFilters.society !== "All Societies"
+                    ? `Items in ${activeFilters.society}`
                     : activeFilters.category !== "all"
                     ? `${activeFilters.category.charAt(0).toUpperCase() + activeFilters.category.slice(1)} Items`
                     : "Browse All Items"

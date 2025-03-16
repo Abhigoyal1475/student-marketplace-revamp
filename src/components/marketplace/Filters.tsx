@@ -9,7 +9,8 @@ import {
   Smartphone, 
   ChevronDown, 
   Filter as FilterIcon, 
-  X
+  X,
+  Building
 } from "lucide-react";
 import { 
   Popover, 
@@ -19,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
+import { HOUSING_SOCIETIES } from "@/pages/Index";
 
 // Filter types
 export type SortOption = "newest" | "price_low" | "price_high" | "closest";
@@ -30,6 +32,7 @@ interface FiltersProps {
     sort: SortOption;
     category: CategoryOption;
     priceRange: [number, number];
+    society?: string;
     location?: string;
   }) => void;
   isMobile?: boolean;
@@ -44,6 +47,7 @@ const Filters: React.FC<FiltersProps> = ({
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [sort, setSort] = useState<SortOption>("newest");
   const [category, setCategory] = useState<CategoryOption>("all");
+  const [society, setSociety] = useState("All Societies");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -52,19 +56,23 @@ const Filters: React.FC<FiltersProps> = ({
     newSort = sort,
     newCategory = category,
     newPriceRange = priceRange,
+    newSociety = society,
   }: {
     newSort?: SortOption;
     newCategory?: CategoryOption;
     newPriceRange?: [number, number];
+    newSociety?: string;
   }) => {
     setSort(newSort);
     setCategory(newCategory);
     setPriceRange(newPriceRange);
+    setSociety(newSociety);
 
     // Build active filters array for badges
     const filters: string[] = [];
     if (newCategory !== "all") filters.push(getCategoryLabel(newCategory));
     if (newSort !== "newest") filters.push(getSortLabel(newSort));
+    if (newSociety !== "All Societies") filters.push(newSociety);
     if (newPriceRange[0] > 0 || newPriceRange[1] < 1000) {
       filters.push(`$${newPriceRange[0]} - $${newPriceRange[1]}`);
     }
@@ -76,6 +84,7 @@ const Filters: React.FC<FiltersProps> = ({
         sort: newSort,
         category: newCategory,
         priceRange: newPriceRange,
+        society: newSociety,
       });
     }
   };
@@ -86,6 +95,7 @@ const Filters: React.FC<FiltersProps> = ({
       newSort: "newest",
       newCategory: "all",
       newPriceRange: [0, 1000],
+      newSociety: "All Societies",
     });
   };
 
@@ -240,6 +250,27 @@ const Filters: React.FC<FiltersProps> = ({
                 </div>
 
                 <div>
+                  <h4 className="font-medium mb-3">Society</h4>
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                    {HOUSING_SOCIETIES.map((soc) => (
+                      <button
+                        key={soc}
+                        className={cn(
+                          "flex items-center gap-2 w-full px-3 py-2 rounded-lg border text-left",
+                          soc === society
+                            ? "border-marketplace-blue bg-marketplace-blue-light text-marketplace-blue"
+                            : "border-marketplace-gray-200 text-marketplace-gray-700"
+                        )}
+                        onClick={() => updateFilters({ newSociety: soc })}
+                      >
+                        <Building className="h-4 w-4" />
+                        <span>{soc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
                   <h4 className="font-medium mb-3">Price Range</h4>
                   <div className="px-2">
                     <Slider
@@ -333,6 +364,27 @@ const Filters: React.FC<FiltersProps> = ({
                 </button>
               )
             )}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="font-medium mb-3">Society</h4>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
+            {HOUSING_SOCIETIES.map((soc) => (
+              <button
+                key={soc}
+                className={cn(
+                  "flex items-center w-full gap-2 px-3 py-2 rounded-lg text-left transition-colors",
+                  soc === society
+                    ? "bg-marketplace-blue-light text-marketplace-blue"
+                    : "text-marketplace-gray-700 hover:bg-marketplace-gray-50"
+                )}
+                onClick={() => updateFilters({ newSociety: soc })}
+              >
+                <Building className="h-4 w-4" />
+                <span>{soc}</span>
+              </button>
+            ))}
           </div>
         </div>
 
