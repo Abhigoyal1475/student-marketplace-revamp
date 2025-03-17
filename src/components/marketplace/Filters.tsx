@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { FilterState, SortOption, CategoryOption } from "@/types/filters";
 import { getCategoryLabel, getSortLabel } from "./filters/FilterConstants";
 import CategoryFilter from "./filters/CategoryFilter";
@@ -113,28 +114,33 @@ const Filters: React.FC<FiltersProps> = ({
 
   // Desktop filters
   return (
-    <div className={cn("bg-white rounded-xl shadow-sm p-5", className)}>
-      <div className="space-y-6">
-        <CategoryFilter 
-          selectedCategory={category} 
-          onChange={(newCategory) => updateFilters({ newCategory })} 
-        />
+    <div className={cn("bg-white rounded-xl shadow-sm p-5 h-[calc(100vh-40px)] flex flex-col", className)}>
+      <div className="overflow-hidden flex-1">
+        <ScrollArea className="h-[calc(100%-50px)] pr-2">
+          <div className="space-y-6">
+            <CategoryFilter 
+              selectedCategory={category} 
+              onChange={(newCategory) => updateFilters({ newCategory })} 
+            />
 
-        <SocietyFilter 
-          selectedSociety={society} 
-          onChange={(newSociety) => updateFilters({ newSociety })} 
-        />
+            <SocietyFilter 
+              selectedSociety={society} 
+              onChange={(newSociety) => updateFilters({ newSociety })} 
+            />
 
-        <PriceRangeFilter 
-          priceRange={priceRange} 
-          onChange={(newPriceRange) => updateFilters({ newPriceRange })} 
-        />
+            <PriceRangeFilter 
+              priceRange={priceRange} 
+              onChange={(newPriceRange) => updateFilters({ newPriceRange })} 
+            />
 
-        <SortFilter 
-          selectedSort={sort} 
-          onChange={(newSort) => updateFilters({ newSort })} 
-        />
-
+            <SortFilter 
+              selectedSort={sort} 
+              onChange={(newSort) => updateFilters({ newSort })} 
+            />
+          </div>
+        </ScrollArea>
+      </div>
+      <div className="mt-4 pt-4 border-t">
         <Button
           variant="outline"
           className="w-full"

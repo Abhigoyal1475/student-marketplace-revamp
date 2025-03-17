@@ -31,7 +31,7 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
     <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
       {/* Filters - Desktop */}
       {!isMobile && (
-        <aside className="hidden lg:block sticky top-24 h-fit">
+        <aside className="hidden lg:block sticky top-24 self-start">
           <Filters onFilterChange={onFilterChange} />
         </aside>
       )}
