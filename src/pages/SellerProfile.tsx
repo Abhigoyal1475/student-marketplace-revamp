@@ -1,224 +1,171 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+
+import React from "react";
+import { useParams } from "react-router-dom";
 import Container from "@/components/ui/container";
-import Navbar from "@/components/layout/Navbar";
-import ProductGrid from "@/components/marketplace/ProductGrid";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Star, MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { MOCK_PRODUCTS } from "@/data/mockData"; 
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MOCK_PRODUCTS } from "@/data/mockData";
+import ProductGrid from "@/components/marketplace/ProductGrid";
 import { Product } from "@/types/product";
+import { 
+  ShieldCheck, 
+  Clock, 
+  MapPin, 
+  Mail, 
+  Phone,
+  User
+} from "lucide-react";
 
-// Mock user data
-const MOCK_USERS = [
-  {
-    username: "Alex",
-    fullName: "Alex Johnson",
-    email: "alex.j@university.edu",
-    phone: "(555) 123-4567",
-    location: "Near UH Campus",
-    joinedDate: "2023-01-15T10:00:00Z",
-    isVerified: true,
-    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-    bio: "Graduate student in Computer Science. I sell items I no longer need to help fund my education. Always open to reasonable offers!"
-  },
-  {
-    username: "Maria",
-    fullName: "Maria Rodriguez",
-    email: "maria.r@university.edu",
-    phone: "(555) 234-5678",
-    location: "Downtown",
-    joinedDate: "2023-02-20T14:30:00Z",
-    isVerified: false,
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-    bio: "Third-year Economics student. I sell textbooks and study materials from previous semesters. Quick responses guaranteed!"
-  },
-  {
-    username: "John",
-    fullName: "John Smith",
-    email: "john.s@university.edu",
-    phone: "(555) 345-6789",
-    location: "West Campus",
-    joinedDate: "2023-03-10T09:15:00Z",
-    isVerified: true,
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-    bio: "Engineering student and bike enthusiast. I repair and sell bicycles in my free time. All bikes are thoroughly checked before selling."
-  },
-  {
-    username: "Emma",
-    fullName: "Emma Wilson",
-    email: "emma.w@university.edu",
-    phone: "(555) 456-7890",
-    location: "University Area",
-    joinedDate: "2023-04-05T16:45:00Z",
-    isVerified: true,
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-    bio: "Computer Science major with a focus on UI/UX. I sell electronics that I've upgraded from. All items are well maintained and come with original packaging when possible."
-  },
-];
-
-// Format date to readable format
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-};
-
-const SellerProfile = () => {
-  const { sellerName } = useParams<{ sellerName: string }>();
-  const [seller, setSeller] = useState<any>(null);
-  const [sellerProducts, setSellerProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate API call to fetch seller data
-    setIsLoading(true);
-    
-    setTimeout(() => {
-      // Find seller
-      const foundSeller = MOCK_USERS.find(user => user.username === sellerName);
-      setSeller(foundSeller || null);
-      
-      // Find seller's products
-      const products = MOCK_PRODUCTS.filter(product => product.sellerName === sellerName);
-      setSellerProducts(products);
-      
-      setIsLoading(false);
-    }, 1000);
-    
-  }, [sellerName]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-marketplace-gray-50">
-        <Navbar />
-        <Container>
-          <div className="py-16 text-center">
-            <div className="animate-pulse flex flex-col items-center">
-              <div className="rounded-full bg-gray-200 h-24 w-24 mb-4"></div>
-              <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-64"></div>
+const SellerProfile: React.FC = () => {
+  // Get seller ID from URL params
+  const { sellerId } = useParams<{ sellerId: string }>();
+  
+  // In a real app, you'd fetch seller data from an API
+  // For this demo, we'll create mock data
+  const sellerData = {
+    id: sellerId || "1",
+    name: "Alex Johnson",
+    username: "alex_j",
+    bio: "Graduate student selling items I no longer need. All items are in good condition and prices are negotiable.",
+    memberSince: "January 2023",
+    location: "Stratford Apartments",
+    email: "alex@example.edu",
+    phone: "+1 (555) 123-4567",
+    verified: true,
+    rating: 4.8,
+    reviewCount: 27,
+    profileImage: "https://randomuser.me/api/portraits/men/32.jpg"
+  };
+  
+  // Filter products by this seller
+  const sellerProducts: Product[] = MOCK_PRODUCTS.filter(
+    (product) => product.sellerId === sellerData.id
+  );
+  
+  return (
+    <Container className="py-8">
+      <div className="grid md:grid-cols-[300px_1fr] gap-8">
+        {/* Seller Info Card */}
+        <div className="bg-white rounded-xl shadow-sm p-6 space-y-6 h-fit">
+          {/* Profile Header */}
+          <div className="flex flex-col items-center text-center">
+            <div className="h-24 w-24 rounded-full overflow-hidden mb-4">
+              <img
+                src={sellerData.profileImage}
+                alt={sellerData.name}
+                className="w-full h-full object-cover"
+              />
             </div>
-          </div>
-        </Container>
-      </div>
-    );
-  }
-
-  if (!seller) {
-    return (
-      <div className="min-h-screen bg-marketplace-gray-50">
-        <Navbar />
-        <Container>
-          <div className="py-16 text-center">
-            <h1 className="text-2xl font-bold mb-4">Seller Not Found</h1>
-            <p className="text-marketplace-gray-600 mb-8">
-              The seller profile you're looking for doesn't exist or has been removed.
-            </p>
-            <Button asChild>
-              <a href="/">Back to Marketplace</a>
+            <h1 className="text-xl font-semibold">{sellerData.name}</h1>
+            <p className="text-marketplace-gray-500">@{sellerData.username}</p>
+            
+            <div className="flex items-center mt-2 gap-1">
+              <Badge variant="secondary" className="flex items-center gap-1">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Verified</span>
+              </Badge>
+              <Badge variant="outline">{sellerData.rating} ★</Badge>
+            </div>
+            
+            <Button className="mt-4 w-full bg-marketplace-blue">
+              Contact Seller
             </Button>
           </div>
-        </Container>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-marketplace-gray-50">
-      <Navbar />
-      
-      <Container className="py-12">
-        {/* Seller Info */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-10">
-          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
-            {/* Avatar */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative">
-                <img 
-                  src={seller.avatar} 
-                  alt={seller.fullName} 
-                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md"
-                />
-                {seller.isVerified && (
-                  <div className="absolute bottom-0 right-0 bg-green-100 rounded-full p-1.5 border-2 border-white">
-                    <ShieldCheck className="h-5 w-5 text-green-500" />
-                  </div>
-                )}
-              </div>
-              <h1 className="text-xl font-bold mt-4">{seller.fullName}</h1>
-              <p className="text-marketplace-gray-600 text-sm">@{seller.username}</p>
-              <div className="flex items-center justify-center mt-2 text-sm text-marketplace-gray-500">
-                <Clock className="h-3.5 w-3.5 mr-1" />
-                <span>Joined {formatDate(seller.joinedDate)}</span>
+          
+          {/* Seller Details */}
+          <div className="space-y-4 pt-4 border-t border-marketplace-gray-100">
+            <div className="flex gap-3 text-marketplace-gray-600">
+              <Clock className="h-5 w-5 text-marketplace-gray-400" />
+              <div>
+                <p className="text-sm font-medium text-marketplace-gray-900">Member Since</p>
+                <p className="text-sm">{sellerData.memberSince}</p>
               </div>
             </div>
             
-            {/* Seller details */}
-            <div>
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-lg font-semibold mb-2">About</h2>
-                  <p className="text-marketplace-gray-700">{seller.bio}</p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-                  <div className="flex items-center gap-2 text-marketplace-gray-700">
-                    <MapPin className="h-4 w-4 text-marketplace-gray-500" />
-                    <span>{seller.location}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-marketplace-gray-700">
-                    <Mail className="h-4 w-4 text-marketplace-gray-500" />
-                    <span>{seller.email}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-marketplace-gray-700">
-                    <Phone className="h-4 w-4 text-marketplace-gray-500" />
-                    <span>{seller.phone}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    {seller.isVerified ? (
-                      <span className="text-green-600 flex items-center">
-                        <ShieldCheck className="h-4 w-4 mr-1" />
-                        Verified Seller
-                      </span>
-                    ) : (
-                      <span className="text-marketplace-gray-500">Not Verified</span>
-                    )}
-                  </div>
-                </div>
+            <div className="flex gap-3 text-marketplace-gray-600">
+              <MapPin className="h-5 w-5 text-marketplace-gray-400" />
+              <div>
+                <p className="text-sm font-medium text-marketplace-gray-900">Location</p>
+                <p className="text-sm">{sellerData.location}</p>
               </div>
-              
-              <div className="mt-6">
-                <Button className="bg-marketplace-blue">
-                  Contact Seller
-                </Button>
+            </div>
+            
+            <div className="flex gap-3 text-marketplace-gray-600">
+              <Mail className="h-5 w-5 text-marketplace-gray-400" />
+              <div>
+                <p className="text-sm font-medium text-marketplace-gray-900">Email</p>
+                <p className="text-sm">{sellerData.email}</p>
               </div>
+            </div>
+            
+            <div className="flex gap-3 text-marketplace-gray-600">
+              <Phone className="h-5 w-5 text-marketplace-gray-400" />
+              <div>
+                <p className="text-sm font-medium text-marketplace-gray-900">Phone</p>
+                <p className="text-sm">{sellerData.phone}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pt-4 border-t border-marketplace-gray-100">
+            <div className="flex items-center gap-2 text-marketplace-gray-600">
+              <ShieldCheck className="h-5 w-5 text-green-500" />
+              <p className="text-sm">
+                <span className="font-medium text-marketplace-gray-900">Trust & Safety:</span> Verified university email and student ID
+              </p>
             </div>
           </div>
         </div>
         
-        {/* Seller's Listings */}
-        <div>
-          <h2 className="text-xl font-semibold mb-6 flex items-center">
-            <User className="h-5 w-5 mr-2" />
-            {seller.username}'s Listings ({sellerProducts.length})
-          </h2>
+        {/* Seller Content */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Items from {sellerData.name}</h2>
+            <Badge variant="outline" className="flex items-center gap-1">
+              <span>{sellerProducts.length} Items</span>
+            </Badge>
+          </div>
           
-          {sellerProducts.length > 0 ? (
-            <ProductGrid products={sellerProducts} loading={false} />
-          ) : (
-            <div className="text-center py-12 bg-white rounded-xl">
-              <p className="text-marketplace-gray-500">This seller has no listings yet.</p>
-            </div>
-          )}
+          <Tabs defaultValue="active" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="active" className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                <span>Active Listings</span>
+              </TabsTrigger>
+              <TabsTrigger value="sold" className="flex items-center gap-2">
+                <span>Sold Items</span>
+              </TabsTrigger>
+              <TabsTrigger value="reviews" className="flex items-center gap-2">
+                <span>Reviews ({sellerData.reviewCount})</span>
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="active">
+              {sellerProducts.length > 0 ? (
+                <ProductGrid products={sellerProducts} />
+              ) : (
+                <div className="text-center py-12 bg-marketplace-gray-50 rounded-lg">
+                  <p className="text-marketplace-gray-500">No active listings found.</p>
+                </div>
+              )}
+            </TabsContent>
+            
+            <TabsContent value="sold">
+              <div className="text-center py-12 bg-marketplace-gray-50 rounded-lg">
+                <p className="text-marketplace-gray-500">No sold items to display.</p>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="reviews">
+              <div className="text-center py-12 bg-marketplace-gray-50 rounded-lg">
+                <p className="text-marketplace-gray-500">No reviews yet.</p>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 };
 

@@ -3,14 +3,14 @@ import { Product } from "@/types/product";
 // List of housing societies
 export const HOUSING_SOCIETIES = [
   "All Societies",
-  "Stratford",
-  "Scotland",
+  "Stratford Apartments",
+  "Scotland Heights",
   "Holly Hall",
-  "Windsor Hill",
-  "Cambridge Commons",
-  "College Suites",
-  "University Village",
-  "Campus Edge"
+  "Windsor Place",
+  "Oakwood Residence",
+  "Riverside Commons",
+  "University Heights",
+  "Parkview Apartments"
 ];
 
 // Mock data for demo
