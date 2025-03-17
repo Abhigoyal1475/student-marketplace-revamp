@@ -1,13 +1,13 @@
-
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Product } from "@/types/product";
-import { User, MapPin, Mail, Phone, ShieldCheck, Clock } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import Container from "@/components/ui/container";
 import Navbar from "@/components/layout/Navbar";
 import ProductGrid from "@/components/marketplace/ProductGrid";
 import { Button } from "@/components/ui/button";
-import { MOCK_PRODUCTS } from "./Index";
+import { ArrowLeft, Star, MessageCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { MOCK_PRODUCTS } from "@/data/mockData"; 
+import { Product } from "@/types/product";
 
 // Mock user data
 const MOCK_USERS = [
