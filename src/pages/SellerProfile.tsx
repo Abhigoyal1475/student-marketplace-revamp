@@ -7,11 +7,13 @@ import SellerProductTabs from "@/components/seller/SellerProductTabs";
 import { getMockSellerData, getSellerProducts } from "@/utils/seller-utils";
 
 const SellerProfile: React.FC = () => {
-  // Get seller ID from URL params
+  // Get seller name from URL params instead of ID
   const { sellerId } = useParams<{ sellerId: string }>();
   
-  // Get seller data and products
+  // Get seller data using the ID from the URL
   const sellerData = getMockSellerData(sellerId || "1");
+  
+  // Get seller products using the seller's name
   const sellerProducts = getSellerProducts(sellerData.name);
   
   return (

@@ -35,9 +35,9 @@ export const getMockSellerData = (sellerId: string): SellerData => {
   };
 };
 
-// Filter products by seller
-export const getSellerProducts = (sellerId: string): Product[] => {
+// Filter products by seller name (not ID)
+export const getSellerProducts = (sellerName: string): Product[] => {
   return MOCK_PRODUCTS.filter(
-    (product) => product.sellerName === sellerId
+    (product) => product.sellerName === sellerName
   );
 };
