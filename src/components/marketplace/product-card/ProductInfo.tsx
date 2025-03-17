@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatPrice, getRelativeTime } from "@/utils/product-utils";
 import type { Product } from "@/types/product";
+import { Link } from "react-router-dom";
 
 interface ProductInfoProps {
   product: Product;
@@ -57,7 +58,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
       
       <div className="mt-auto pt-3 border-t border-marketplace-gray-100">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
+          <Link to={`/seller/${product.sellerName}`} className="flex items-center">
             <div className="w-6 h-6 bg-marketplace-gray-200 rounded-full flex items-center justify-center text-xs text-marketplace-gray-700 mr-2">
               {product.sellerName.charAt(0)}
             </div>
@@ -67,7 +68,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
                 <Star className="h-3 w-3 inline-block ml-1 fill-marketplace-blue" />
               )}
             </span>
-          </div>
+          </Link>
           <Button 
             size="sm" 
             variant="ghost" 
