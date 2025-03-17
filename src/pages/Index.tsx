@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Container from "@/components/ui/container";
@@ -11,6 +10,7 @@ import FeaturedListings from "@/components/marketplace/FeaturedListings";
 import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { ChevronUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // List of housing societies
 export const HOUSING_SOCIETIES = [
@@ -26,7 +26,7 @@ export const HOUSING_SOCIETIES = [
 ];
 
 // Mock data for demo
-const MOCK_PRODUCTS: Product[] = [
+export const MOCK_PRODUCTS: Product[] = [
   {
     id: "1",
     title: "IKEA Study Desk - Great Condition",
