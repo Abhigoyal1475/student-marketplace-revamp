@@ -28,7 +28,7 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
   const isMobile = useIsMobile();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-8">
       {/* Filters - Desktop */}
       {!isMobile && (
         <aside className="hidden lg:block sticky top-24 self-start">
@@ -36,7 +36,7 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
         </aside>
       )}
       
-      <div className="space-y-10">
+      <div className="space-y-6 lg:space-y-10">
         {/* Filters - Mobile */}
         {isMobile && (
           <Filters 
@@ -45,8 +45,8 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
           />
         )}
         
-        {/* Featured Listings - now showing 6 */}
-        <FeaturedListings products={products.slice(0, 6)} />
+        {/* Featured Listings - showing 4 on mobile, 6 on desktop */}
+        <FeaturedListings products={products.slice(0, isMobile ? 4 : 6)} />
         
         {/* Product Grid */}
         <div>
