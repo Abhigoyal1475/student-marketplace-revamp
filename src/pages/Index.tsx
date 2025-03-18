@@ -49,12 +49,14 @@ const Index = () => {
             />
           </div>
           
-          {/* Society Filter */}
-          <SocietyFilter
-            societies={HOUSING_SOCIETIES}
-            activeSociety={activeFilters.society}
-            onSocietyChange={handleSocietyChange}
-          />
+          {/* Society Filter - only show when not searching */}
+          {!searchQuery && (
+            <SocietyFilter
+              societies={HOUSING_SOCIETIES}
+              activeSociety={activeFilters.society}
+              onSocietyChange={handleSocietyChange}
+            />
+          )}
           
           <MarketplaceContent
             products={MOCK_PRODUCTS}

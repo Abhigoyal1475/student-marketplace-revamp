@@ -28,6 +28,7 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
   onFilterChange,
 }) => {
   const isMobile = useIsMobile();
+  const isSearching = searchQuery.length > 0;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-8">
@@ -54,8 +55,10 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
           </div>
         )}
         
-        {/* Featured Listings - showing 4 on mobile, 6 on desktop */}
-        <FeaturedListings products={products.slice(0, isMobile ? 4 : 6)} />
+        {/* Featured Listings - only show when not searching */}
+        {!isSearching && (
+          <FeaturedListings products={products.slice(0, isMobile ? 4 : 6)} />
+        )}
         
         {/* Product Grid */}
         <div>
