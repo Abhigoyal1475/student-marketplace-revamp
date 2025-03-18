@@ -7,6 +7,8 @@ import ProductGrid from "@/components/marketplace/ProductGrid";
 import SearchResultsHeading from "@/components/marketplace/SearchResultsHeading";
 import { Product } from "@/types/product";
 import { FilterState } from "@/types/filters";
+import PostItemDialog from "./PostItemDialog";
+import { Button } from "../ui/button";
 
 interface MarketplaceContentProps {
   products: Product[];
@@ -31,7 +33,7 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
     <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-8">
       {/* Filters - Desktop */}
       {!isMobile && (
-        <aside className="hidden lg:block sticky top-24 self-start">
+        <aside className="hidden lg:block sticky top-24 self-start h-[calc(100vh-8rem)] overflow-auto">
           <Filters onFilterChange={onFilterChange} />
         </aside>
       )}
@@ -43,6 +45,13 @@ const MarketplaceContent: React.FC<MarketplaceContentProps> = ({
             isMobile={true} 
             onFilterChange={onFilterChange} 
           />
+        )}
+        
+        {/* Mobile Post Item Button */}
+        {isMobile && (
+          <div className="mb-4">
+            <PostItemDialog buttonClassName="w-full rounded-lg" />
+          </div>
         )}
         
         {/* Featured Listings - showing 4 on mobile, 6 on desktop */}

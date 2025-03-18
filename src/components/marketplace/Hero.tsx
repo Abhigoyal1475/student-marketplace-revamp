@@ -4,6 +4,7 @@ import Container from "@/components/ui/container";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import PostItemDialog from "./PostItemDialog";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,13 +36,10 @@ const Hero = () => {
               Browse Items
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="rounded-full w-full sm:w-auto"
-            >
-              Post an Item
-            </Button>
+            <PostItemDialog 
+              buttonVariant="outline" 
+              buttonClassName="rounded-full w-full sm:w-auto"
+            />
           </div>
         </div>
       </Container>
